@@ -18,8 +18,8 @@ main() {
   export TEAMWORK_API_TOKEN="$3"
 
   # Check if there is a task link in the PR
-  local -r pr_body=$(github::get_pr_body)
-  local -r task_id=$(teamwork::get_task_id_from_body "$pr_body" )
+  local -r pr_title=$(github::get_pr_title)
+  local -r task_id=$(teamwork::get_task_id_from_title "$pr_title" )
 
   if [ "$task_id" == "" ]; then
     log::message "Task not found"

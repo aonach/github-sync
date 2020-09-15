@@ -10,6 +10,16 @@ teamwork::get_task_id_from_body() {
   echo $task_id
 }
 
+teamwork::get_task_id_from_title() {
+  local -r title=$1
+
+  pat='TASK\-[0-9]{1,}'
+  task=$(echo $title | grep -Eo $pat)
+  task_id=$(echo $task | tr -cd  '[[:digit:]]')
+
+  echo $task_id
+}
+
 teamwork::add_comment() {
   local -r body=$1
 
