@@ -35,11 +35,15 @@ main() {
 
   log::message "Event: " $event " - Action: " $action
 
-  if [ "$event" == "pull_request" ] && [ "$action" == "opened" ]; then
-    teamwork::pull_request_opened
-  elif [ "$event" == "pull_request" ] && [ "$action" == "closed" ]; then
-    teamwork::pull_request_closed
-  elif [ "$event" == "pull_request_review" ] && [ "$action" == "submitted" ]; then
+  if [ "$event" == "pull_request" ]; then
+    if [ "$action" == "opened" ]; then
+      teamwork::pull_request_opened
+    elif [ "$action" == "closed" ]; then
+      teamwork::pull_request_closed
+    fi
+  fi
+
+  if [ "$event" == "pull_request_review" ] && [ "$action" == "submitted" ]; then
     teamwork::pull_request_review_submitted
   elif [ "$event" == "pull_request_review" ] && [ "$action" == "dismissed" ]; then
     teamwork::pull_request_review_dismissed
