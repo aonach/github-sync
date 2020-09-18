@@ -45,11 +45,7 @@ main() {
         teamwork::pull_request_closed
       fi
     fi
-  fi
-
-  github::print_all_data
-
-  if [ "$event" == "pull_request_review" ] && [ "$action" == "submitted" ]; then
+  elif [ "$event" == "pull_request_review" ] && [ "$action" == "submitted" ]; then
     teamwork::pull_request_review_submitted
   elif [ "$event" == "pull_request_review" ] && [ "$action" == "dismissed" ]; then
     teamwork::pull_request_review_dismissed
