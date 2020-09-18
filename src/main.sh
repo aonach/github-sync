@@ -39,7 +39,11 @@ main() {
     if [ "$action" == "opened" ]; then
       teamwork::pull_request_opened
     elif [ "$action" == "closed" ]; then
-      teamwork::pull_request_closed
+      if [ "$(github::get_pr_merged)" == "true" ]; then
+        teamwork::pull_request_merged
+      else
+        teamwork::pull_request_closed
+      fi
     fi
   fi
 
