@@ -35,10 +35,16 @@ main() {
 
   log::message "Event: " $event " - Action: " $action
 
-  if [ "$event" == "pull_request" ] && [ "$action" == "opened" ]; then
-    teamwork::pull_request_opened
-  elif [ "$event" == "pull_request" ] && [ "$action" == "closed" ]; then
-    teamwork::pull_request_closed
+  if [ "$event" == "pull_request" ]; then
+    if [ "$action" == "opened" ]; then
+      teamwork::pull_request_opened
+    elif [ "$action" == "closed" ]; then
+      if [ "$(github::get_pr_merged)" == "true" ]; then
+        teamwork::pull_request_merged
+      else
+        teamwork::pull_request_closed
+      fi
+    fi
   elif [ "$event" == "pull_request_review" ] && [ "$action" == "submitted" ]; then
     teamwork::pull_request_review_submitted
   elif [ "$event" == "pull_request_review" ] && [ "$action" == "dismissed" ]; then
