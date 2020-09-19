@@ -31,6 +31,17 @@ teamwork::add_comment() {
   echo $response
 }
 
+teamwork::push_commit() {
+  local -r commit_url=$(github::get_commit_url)
+  local -r commit_message=$(github::get_commit_message)
+  local -r user=$(github::get_sender_user)
+
+  teamwork::add_comment "
+  $user **pushed a commit**: $commit_message
+  [$commit_url]($commit_url)
+  "
+}
+
 teamwork::pull_request_opened() {
   local -r pr_url=$(github::get_pr_url)
   local -r pr_title=$(github::get_pr_title)

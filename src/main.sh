@@ -17,9 +17,16 @@ main() {
   export TEAMWORK_URI="$2"
   export TEAMWORK_API_TOKEN="$3"
 
+  local -r event=$(github::get_event_name)
+  local -r action=$(github::get_action)
+
   # Check if there is a task link in the PR
-  local -r pr_title=$(github::get_pr_title)
-  local -r task_id=$(teamwork::get_task_id_from_title "$pr_title" )
+  if [ "$event" == "push" ]; then
+    local -r title=$(github::get_commit_message)
+  else
+    local -r title=$(github::get_pr_title)
+  fi
+  local -r task_id=$(teamwork::get_task_id_from_title "$title" )
 
   if [ "$task_id" == "" ]; then
     log::message "Task not found"
@@ -30,12 +37,11 @@ main() {
 
   export TEAMWORK_TASK_ID=$task_id
 
-  local -r event=$(github::get_event_name)
-  local -r action=$(github::get_action)
-
   log::message "Event: " $event " - Action: " $action
 
-  if [ "$event" == "pull_request" ]; then
+  if [ "$event" == "push" ]; then
+    teamwork::push_commit
+  elif [ "$event" == "pull_request" ]; then
     if [ "$action" == "opened" ]; then
       teamwork::pull_request_opened
     elif [ "$action" == "closed" ]; then

@@ -8,6 +8,14 @@ github::get_action() {
   jq --raw-output .action "$GITHUB_EVENT_PATH"
 }
 
+github::get_commit_message() {
+  jq --raw-output .head_commit.message "$GITHUB_EVENT_PATH"
+}
+
+github::get_commit_url() {
+  jq --raw-output .head_commit.url "$GITHUB_EVENT_PATH"
+}
+
 github::get_pr_number() {
   jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH"
 }
