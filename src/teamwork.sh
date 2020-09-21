@@ -20,7 +20,7 @@ teamwork::get_task_id_from_title() {
   local title=$1
   local task_ids=()
 
-  pat='TASK\-[0-9]{1,}'
+  pat='TASK\-([0-9]{1,})'
   while [[ $title =~ $pat ]]; do
     task_ids+=( "${BASH_REMATCH[1]}" )
     title=${title#*"${BASH_REMATCH[1]}"}
