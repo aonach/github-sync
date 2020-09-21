@@ -36,7 +36,7 @@ main() {
     exit 0
   fi
 
-  log::message "Event: " $event " - Action: " $action
+  log::message "Event: $event - Action: $action"
 
   IFS=',' read -r -a task_ids <<< "$task_ids_str"
   for task_id in "${task_ids[@]}"; do
